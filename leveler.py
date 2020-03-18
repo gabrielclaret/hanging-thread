@@ -2,9 +2,9 @@ from game import g_game
 from game_object import GameObject
 import pygame
 
-class Platform(GameObject):
+class Leveler(GameObject):
     def __init__(self, x, y, width, height, color):
-        super(Platform, self).__init__()
+        super(Leveler, self).__init__()
 
         screen = pygame.display.get_surface()
 

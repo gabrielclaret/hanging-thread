@@ -1,7 +1,7 @@
 from game import g_game
 import pygame
 from monster import Monster
-from gplatform import Platform 
+from leveler import Leveler 
 from player import Player
 from shoot_front import ShootFront
 import utils
@@ -34,10 +34,10 @@ def main():
     #monster.teleport(700, 900)
 
     #x, y, width, height, color
-    p = Platform(0, 900, 1000, 100, (0, 0, 255))
-    p2 = Platform(0, 0, 100, 1000, (0, 0, 255))
-    p3 = Platform(900, 0, 100, 1000, (0, 0, 255))
-    p4 = Platform(0, 0, 1000, 100, (0, 0, 255))
+    p = Leveler(0, 900, 1000, 100, (0, 0, 255))
+    p2 = Leveler(0, 0, 100, 1000, (0, 0, 255))
+    p3 = Leveler(900, 0, 100, 1000, (0, 0, 255))
+    p4 = Leveler(0, 0, 1000, 100, (0, 0, 255))
 
     while g_game.running:
         clock.tick(60)

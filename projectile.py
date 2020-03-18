@@ -1,7 +1,7 @@
 from game import g_game
 from game_object import GameObject
 from monster import Monster
-from gplatform import Platform
+from leveler import Leveler
 from player import Player
 import pygame
 
@@ -37,7 +37,7 @@ class Projectile(GameObject):
         for obj in old_obj.values():
             if not new_rect.colliderect(obj.rect):
                 continue
-            elif isinstance(obj, Platform) or can_attack(self.shooter, obj):
+            elif isinstance(obj, Leveler) or can_attack(self.shooter, obj):
                 print("Hit something!")
                 del g_game.objects[self.id]
 
