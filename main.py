@@ -7,14 +7,6 @@ from shoot_front import ShootFront
 import utils
 from walk_still import WalkStill
 
-def draw(obj):
-    if obj.rect is None or obj.color is None:
-        return
-
-    screen = pygame.display.get_surface()
-
-    pygame.draw.rect(screen, obj.color or (0, 0, 0), obj.rect)
-
 def main():
     pygame.init()
 
