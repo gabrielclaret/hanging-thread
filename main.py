@@ -38,7 +38,7 @@ def main():
     #range, speed, color, width, height
     #steps, speed
     
-    #monster = Monster(700, 900, 8, (0, 255, 0), 150, 100, utils.RIGHT, 1, ShootFront(500, 5, (0, 0, 0), 10, 10), WalkStill(0, 0))
+    #monster = Monster(700, 900, 0, (0, 255, 0), 150, 100, utils.RIGHT, 1, ShootFront(500, 5, (0, 0, 0), 10, 10), WalkStill(0))
     #monster.teleport(700, 900)
 
     #x, y, width, height, color
@@ -60,13 +60,13 @@ def main():
 
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_LEFT]:
-            player.move_left()
+            player.move(utils.LEFT)
         elif player.state == utils.MOVING and player.direction == utils.LEFT:
             player.move_pos = [0, 0]
             player.state = utils.STILL
 
         if pressed[pygame.K_RIGHT]:
-            player.move_right()
+            player.move(utils.RIGHT)
         elif player.state == utils.MOVING and player.direction == utils.RIGHT:
             player.move_pos = [0, 0]
             player.state = utils.STILL

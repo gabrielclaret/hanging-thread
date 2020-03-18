@@ -37,14 +37,9 @@ class Creature(GameObject):
         self.rect.x = x
         self.rect.y = y
 
-    def move_left(self):
-        self.move_pos[0] = -self.speed
-        self.direction = utils.LEFT
-        self.state = utils.MOVING
-
-    def move_right(self):
-        self.move_pos[0] = self.speed
-        self.direction = utils.RIGHT
+    def move(self, direction):
+        self.move_pos[0] = direction * self.speed
+        self.direction = direction
         self.state = utils.MOVING
 
     def update(self):

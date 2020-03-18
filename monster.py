@@ -24,6 +24,7 @@ class Monster(Creature):
         self.shoot_pattern.shooter = self
 
         self.walk_pattern = walk_pattern
+        self.walk_pattern.walker = self
 
         self.clock = pygame.time.Clock()
 
@@ -32,7 +33,7 @@ class Monster(Creature):
 
     def __think(self):
         while g_game.running:
-            self.move_pos, self.direction = self.walk_pattern.step(self.direction)
+            self.walk_pattern.step()
 
             if (utils.current_milli_time() - self.internal_cooldown) >= self.shoot_cooldown:
                 self.shoot_pattern.fire()

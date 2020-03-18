@@ -1,13 +1,12 @@
 from walk import Walk
 
 class WalkSymmetrical(Walk):
-    def step(self, direction):
+    def step(self):
+        direction = self.walker.direction
+
         if self.steps == 0:
             direction *= -1
             self.steps_remaining = self.steps
 
-        move_pos = (direction * self.speed, 0)
-
+        self.walker.move(direction)
         self.steps_remaining -= 1
-
-        return (move_pos, direction)
