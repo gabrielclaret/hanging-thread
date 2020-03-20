@@ -34,10 +34,12 @@ def main():
     #monster.teleport(700, 900)
 
     #x, y, width, height, color
-    p = Leveler(0, 900, 1000, 100, (0, 0, 255))
-    p2 = Leveler(0, 0, 100, 1000, (0, 0, 255))
-    p3 = Leveler(900, 0, 100, 1000, (0, 0, 255))
-    p4 = Leveler(0, 0, 1000, 100, (0, 0, 255))
+    p1 = Leveler(0, 900, (0, 0, 255), 1000, 100)
+    p2 = Leveler(0, 0, (0, 0, 255), 100, 1000)
+    p3 = Leveler(900, 0, (0, 0, 255), 100, 1000)
+    p4 = Leveler(0, 0, (0, 0, 255), 1000, 100)
+    p5 = Leveler(400, 800, (0, 0, 255), 200, 200)
+    p6 = Leveler(600, 600, (0, 0, 255), 200, 100)
 
     while g_game.running:
         clock.tick(60)
@@ -63,11 +65,13 @@ def main():
             player.move_pos = [0, 0]
             player.state = utils.STILL
 
-        if pressed[pygame.K_UP] and not player.jumping:
-            player.jump()
+        if player.leveler is not None:
+            if pressed[pygame.K_UP]:
+                player.jump()
+            elif pressed[pygame.K_DOWN] and player.leveler.collision_behavior == utils.IGNORE_EXCEPT_ABOVE:
+                player.teleport(y = player.leveler.rect.bottom)
 
-        old_obj = g_game.objects.copy()
-        for obj in old_obj.values():
+        for obj in g_game.objects.values():
             obj.update()
             obj.draw()
 

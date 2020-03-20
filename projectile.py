@@ -4,22 +4,17 @@ from monster import Monster
 from leveler import Leveler
 from player import Player
 import pygame
+import utils
 
 def can_attack(creature_a, creature_b):
     return (isinstance(creature_a, Player) and isinstance(creature_b, Monster)) or (isinstance(creature_a, Monster) and isinstance(creature_b, Player))
 
 class Projectile(GameObject):
-    def __init__(self, range, speed, color, width, height, start_x, start_y, direction, shooter):
-        super(Projectile, self).__init__()
-
-        screen = pygame.display.get_surface()
-        
-        self.rect = pygame.draw.rect(screen, color, pygame.Rect(start_x, start_y, width, height))
-        self.area = screen.get_rect()
+    def __init__(self, start_x, start_y, range, speed, color, width, height, direction, shooter, collision_behavior = utils.IGNORE_ALWAYS):
+        super(Projectile, self).__init__(start_x, start_y, color, width, height, collision_behavior)
 
         self.range = range
         self.speed = speed
-        self.color = color
         self.direction = direction
         self.shooter = shooter
 
@@ -33,8 +28,9 @@ class Projectile(GameObject):
         if self.range <= 0:
             del g_game.objects[self.id]
 
-        old_obj = g_game.objects.copy()
-        for obj in old_obj.values():
+        #old_obj = g_game.objects.copy()
+        #for obj in old_obj.values():
+        for obj in g_game.objects.values():
             if not new_rect.colliderect(obj.rect):
                 continue
             elif isinstance(obj, Leveler) or can_attack(self.shooter, obj):

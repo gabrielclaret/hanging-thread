@@ -14,8 +14,8 @@ WALK_SYMMETRICAL = 2
 '''
 
 class Monster(Creature):
-    def __init__(self, x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern):
-        super(Monster, self).__init__(x, y, speed, color, width, height, direction)
+    def __init__(self, x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern, collision_behavior = None):
+        super(Monster, self).__init__(x, y, speed, color, width, height, direction, collision_behavior)
 
         self.internal_cooldown = utils.current_milli_time() + shoot_cooldown
         self.shoot_cooldown = shoot_cooldown

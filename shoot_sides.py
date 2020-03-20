@@ -8,11 +8,8 @@ class ShootSides(Shoot):
         shooter_x = self.shooter.direction == utils.LEFT and self.shooter.rect.left or self.shooter.rect.right
         shooter_y = self.shooter.rect.top
 
-        new_projectile_left = Projectile(self.range, self.speed, self.color, self.width, self.height, shooter_x + (utils.LEFT * self.width), shooter_y + self.height, utils.LEFT, self.shooter)
+        new_projectile_left = Projectile(shooter_x + (utils.LEFT * self.width), shooter_y + self.height, self.range, self.speed, self.color, self.width, self.height, utils.LEFT, self.shooter)
         
         shooter_x = self.shooter.rect.right
         
-        new_projectile_right = Projectile(self.range, self.speed, self.color, self.width, self.height, shooter_x + (utils.RIGHT * self.width), shooter_y + self.height, utils.RIGHT, self.shooter)
-
-        g_game.objects[new_projectile_left.id] = new_projectile_left
-        g_game.objects[new_projectile_right.id] = new_projectile_right
+        new_projectile_right = Projectile(shooter_x + (utils.RIGHT * self.width), shooter_y + self.height, self.range, self.speed, self.color, self.width, self.height, utils.RIGHT, self.shooter)

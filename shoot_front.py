@@ -9,6 +9,4 @@ class ShootFront(Shoot):
         shooter_y = self.shooter.rect.top
         direction = self.shooter.direction
 
-        new_projectile = Projectile(self.range, self.speed, self.color, self.width, self.height, shooter_x + (direction * self.width), shooter_y + self.height, direction, self.shooter)
-
-        g_game.objects[new_projectile.id] = new_projectile
+        new_projectile = Projectile(shooter_x + (direction * self.width), shooter_y + self.height, self.range, self.speed, self.color, self.width, self.height, direction, self.shooter)

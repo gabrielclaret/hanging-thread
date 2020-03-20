@@ -1,28 +1,25 @@
 from game import g_game
 from game_object import GameObject
+#from projectile import Projectile
 import pygame
 import utils
 
+count = 0
+
 class Creature(GameObject):
-    def __init__(self, x, y, speed, color, width, height, direction):
-        super(Creature, self).__init__()
-
-        screen = pygame.display.get_surface()
-
-        self.rect = pygame.draw.rect(screen, color, pygame.Rect(x, y, width, height))
-        self.area = screen.get_rect()
+    def __init__(self, x, y, speed, color, width, height, direction, collision_behavior = None):
+        super(Creature, self).__init__(x, y, color, width, height, collision_behavior)
 
         self.speed = speed
-        self.color = color
         self.direction = direction
 
         self.state = utils.STILL
-        self.jumping = False
-        self.is_in_platform = False
+
+        self.total_jump = 0
+
+        self.leveler = None
 
         self.__reinit()
-
-        g_game.objects[self.id] = self
 
     def __reinit(self):
         self.move_pos = [0, 0]
@@ -33,9 +30,9 @@ class Creature(GameObject):
         elif self.direction == utils.RIGHT:
             self.rect.midright = self.area.midright
 
-    def teleport(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
+    def teleport(self, x = -1, y = -1):
+        self.rect.x = x > -1 and x or self.rect.x
+        self.rect.y = y > -1 and y or self.rect.y
 
     def move(self, direction):
         self.move_pos[0] = direction * self.speed
@@ -43,55 +40,63 @@ class Creature(GameObject):
         self.state = utils.MOVING
 
     def update(self):
+        global count
         if self.total_jump > 0:
             self.move_pos[1] = -utils.GRAVITY_UPWARDS
             self.total_jump -= utils.GRAVITY_UPWARDS
-        elif self.jumping:
+        elif self.leveler is None:
             self.move_pos[1] = utils.GRAVITY_DOWNWARDS
 
+        old_rect = self.rect
         new_rect = self.rect.move(self.move_pos)
 
-        collide = False
-        is_in_platform = False
-
-        test_ground = new_rect.copy()
-        test_ground.bottom += 1
+        self.move_pos[1] = 0
         
         for obj in g_game.objects.values():
             if obj is self:
                 continue
 
-            if test_ground.colliderect(obj.rect):
-                is_in_platform = True
+            obj_rect = obj.rect
 
-                self.is_in_platform = True
+            if not new_rect.colliderect(obj_rect) or self.collision_behavior == utils.IGNORE_ALWAYS or obj.collision_behavior == utils.IGNORE_ALWAYS:
+                if self.leveler is obj:
+                    obj_rect_raised = obj_rect.copy()
+                    obj_rect_raised.top -= 1
 
-            if not new_rect.colliderect(obj.rect):
+                    if not new_rect.colliderect(obj_rect_raised):
+                        self.leveler = None
+
                 continue
 
-            if self.jumping:
-                if self.total_jump > 0:
-                    self.total_jump = 0
-                else:
-                    self.is_in_platform = True
+            if old_rect.bottom <= obj_rect.top < new_rect.bottom:
+                # Coming from above
 
-                    self.jumping = False
-                    self.move_pos[1] = 0
-                    
-                    new_rect.y = obj.rect.y - 100
+                # Keep whole object stored in case destroyable levelers are implemented in the future.
+                # UPDATE: Leveler object is now being used to handle levelers where collisions only happen above.
+                self.leveler = obj
 
-                    self.rect = new_rect
+                new_rect.bottom = obj_rect.top
+            elif obj.collision_behavior == utils.IGNORE_EXCEPT_ABOVE: continue
+            elif new_rect.top < obj_rect.bottom <= old_rect.top:
+                # Coming from below
 
-            collide = True
+                new_rect.top = obj_rect.bottom
+            elif new_rect.left < obj_rect.left:
+                # Coming from left
+
+                new_rect.right = obj_rect.left
+            else:
+                # Coming from right
+
+                new_rect.left = obj_rect.right
+
+            # Player is jumping
+            if self.total_jump > 0:
+                # Stop jumping
+                self.total_jump = 0
+
             break
 
-        if not is_in_platform and self.is_in_platform:
-            self.is_in_platform = False
-
-        if not self.is_in_platform and not self.jumping:
-            new_rect.move_ip((0, utils.GRAVITY_DOWNWARDS)) 
-
-        if not collide:
-            self.rect = new_rect
+        self.rect = new_rect
 
         pygame.event.pump()
