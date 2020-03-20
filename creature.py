@@ -1,6 +1,5 @@
 from game import g_game
 from game_object import GameObject
-#from projectile import Projectile
 import pygame
 import utils
 
