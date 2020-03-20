@@ -4,13 +4,10 @@ import pygame
 import utils
 
 class Creature(GameObject):
-    def __init__(self, x, y, speed, color, width, height, direction, collision_behavior = None, immortal = False):
-        super(Creature, self).__init__(x, y, color, width, height, collision_behavior, immortal)
+    def __init__(self, x, y, speed, color, width, height, direction, horizontal = True, collision_behavior = None, immortal = False):
+        super(Creature, self).__init__(x, y, speed, color, width, height, direction, horizontal, collision_behavior, immortal)
 
         self.speed = speed
-        self.direction = direction
-
-        self.state = utils.STILL
 
         self.total_jump = 0
 
@@ -19,7 +16,6 @@ class Creature(GameObject):
         self.__reinit()
 
     def __reinit(self):
-        self.move_pos = [0, 0]
         self.total_jump = 0
 
         if self.direction == utils.LEFT:
@@ -30,11 +26,6 @@ class Creature(GameObject):
     def teleport(self, x = -1, y = -1):
         self.rect.x = x > -1 and x or self.rect.x
         self.rect.y = y > -1 and y or self.rect.y
-
-    def move(self, direction):
-        self.move_pos[0] = direction * self.speed
-        self.direction = direction
-        self.state = utils.MOVING
 
     def update(self):
         if self.total_jump > 0:
@@ -47,19 +38,19 @@ class Creature(GameObject):
         new_rect = self.rect.move(self.move_pos)
 
         self.move_pos[1] = 0
+
+        collision = [False, None]
         
         for obj in g_game.objects.values():
-            if obj is self:
-                continue
-
             obj_rect = obj.rect
 
-            if not new_rect.colliderect(obj_rect) or self.collision_behavior == utils.IGNORE_ALWAYS or obj.collision_behavior == utils.IGNORE_ALWAYS:
+            if obj is self or not new_rect.colliderect(obj_rect) or self.collision_behavior == utils.IGNORE_ALWAYS or obj.collision_behavior == utils.IGNORE_ALWAYS:
                 if self.leveler is obj:
                     obj_rect_raised = obj_rect.copy()
                     obj_rect_raised.top -= 1
 
                     if not new_rect.colliderect(obj_rect_raised):
+                        self.leveler.on_top.remove(self)
                         self.leveler = None
 
                 continue
@@ -70,6 +61,7 @@ class Creature(GameObject):
                 # Keep whole object stored in case destroyable levelers are implemented in the future.
                 # UPDATE: Leveler object is now being used to handle levelers where collisions only happen above.
                 self.leveler = obj
+                obj.on_top.append(self)
 
                 new_rect.bottom = obj_rect.top
             elif obj.collision_behavior == utils.IGNORE_EXCEPT_ABOVE: continue
@@ -91,8 +83,12 @@ class Creature(GameObject):
                 # Stop jumping
                 self.total_jump = 0
 
+            collision = [True, obj]
+
             break
 
         self.rect = new_rect
 
         pygame.event.pump()
+
+        return collision

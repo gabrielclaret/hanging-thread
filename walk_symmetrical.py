@@ -9,4 +9,5 @@ class WalkSymmetrical(Walk):
             self.steps_remaining = self.steps
 
         self.walker.move(direction)
+        
         self.steps_remaining -= 1

@@ -15,6 +15,8 @@ IGNORE_EXCEPT_ABOVE = 2
 # Direction constants
 LEFT = -1
 RIGHT = 1
+UP = -1
+DOWN = 1
 
 # Movement constants
 STILL = 0
@@ -25,7 +27,7 @@ PLAYER_WIDTH = 150
 PLAYER_HEIGHT = 100
 
 # Jump height constant
-JUMP_HEIGHT = 200
+JUMP_HEIGHT = 250
 
 def current_milli_time():
     return int(round(time.time() * 1000))

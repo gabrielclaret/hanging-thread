@@ -5,6 +5,7 @@ from leveler import Leveler
 from player import Player
 from shoot_front import ShootFront
 import utils
+from walk_symmetrical import WalkSymmetrical
 from walk_still import WalkStill
 
 def main():
@@ -33,13 +34,13 @@ def main():
     #monster = Monster(700, 900, 0, (0, 255, 0), 150, 100, utils.RIGHT, 1, ShootFront(500, 5, (0, 0, 0), 10, 10), WalkStill(0))
     #monster.teleport(700, 900)
 
-    #x, y, width, height, color
+    #x, y, color, width, height, collision_behavior = None, immortal = True, speed = 0, direction = None, horizontal = True, walk_pattern = WalkStill()
     p1 = Leveler(0, 900, (0, 0, 255), 1000, 100)
     p2 = Leveler(0, 0, (0, 0, 255), 100, 1000)
     p3 = Leveler(900, 0, (0, 0, 255), 100, 1000)
     p4 = Leveler(0, 0, (0, 0, 255), 1000, 100)
     p5 = Leveler(400, 800, (0, 0, 255), 200, 200)
-    p6 = Leveler(600, 600, (0, 0, 255), 200, 100)
+    p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(5))
 
     while g_game.running:
         clock.tick(60)
@@ -74,6 +75,8 @@ def main():
         for obj in g_game.objects.values():
             obj.update()
             obj.draw()
+
+        #print(player.rect.x, player.rect.y)
 
         pygame.display.flip()
 
