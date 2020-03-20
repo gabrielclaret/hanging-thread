@@ -5,7 +5,7 @@ import pygame
 g_id = 0
 
 class GameObject(ABC):
-    def __init__(self, x, y, color, width, height, collision_behavior = None):
+    def __init__(self, x, y, color, width, height, collision_behavior = None, immortal = False):
         global g_id
         self.id = g_id
         g_id += 1
@@ -18,6 +18,8 @@ class GameObject(ABC):
         self.color = color
 
         self.collision_behavior = collision_behavior
+        
+        self.immortal = immortal
 
         # TODO
         self.health_points = 100

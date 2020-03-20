@@ -4,8 +4,8 @@ import pygame
 import utils
 
 class Creature(GameObject):
-    def __init__(self, x, y, speed, color, width, height, direction, collision_behavior = None):
-        super(Creature, self).__init__(x, y, color, width, height, collision_behavior)
+    def __init__(self, x, y, speed, color, width, height, direction, collision_behavior = None, immortal = False):
+        super(Creature, self).__init__(x, y, color, width, height, collision_behavior, immortal)
 
         self.speed = speed
         self.direction = direction

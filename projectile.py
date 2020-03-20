@@ -10,8 +10,8 @@ def can_attack(creature_a, creature_b):
     return (isinstance(creature_a, Player) and isinstance(creature_b, Monster)) or (isinstance(creature_a, Monster) and isinstance(creature_b, Player))
 
 class Projectile(GameObject):
-    def __init__(self, start_x, start_y, range, speed, color, width, height, direction, shooter, collision_behavior = utils.IGNORE_ALWAYS):
-        super(Projectile, self).__init__(start_x, start_y, color, width, height, collision_behavior)
+    def __init__(self, start_x, start_y, range, speed, color, width, height, direction, shooter, collision_behavior = utils.IGNORE_ALWAYS, immortal = True):
+        super(Projectile, self).__init__(start_x, start_y, color, width, height, collision_behavior, immortal)
 
         self.range = range
         self.speed = speed
