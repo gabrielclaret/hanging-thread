@@ -39,8 +39,12 @@ def main():
     p2 = Leveler(0, 0, (0, 0, 255), 100, 1000)
     p3 = Leveler(900, 0, (0, 0, 255), 100, 1000)
     p4 = Leveler(0, 0, (0, 0, 255), 1000, 100)
-    p5 = Leveler(400, 800, (0, 0, 255), 200, 200)
-    p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(5))
+    #p5 = Leveler(400, 800, (0, 0, 255), 200, 200)
+    #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(5))
+
+    m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
+    #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(0, 0, (0, 0, 0), 0, 0), WalkSymmetrical(100))
+    m1.teleport(700, 800)
 
     while g_game.running:
         clock.tick(60)
@@ -55,24 +59,31 @@ def main():
 
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_LEFT]:
-            player.move(utils.LEFT)
+
+            if not player.stunned:
+                player.move(utils.LEFT)
+
         elif player.state == utils.MOVING and player.direction == utils.LEFT:
             player.move_pos = [0, 0]
             player.state = utils.STILL
 
         if pressed[pygame.K_RIGHT]:
-            player.move(utils.RIGHT)
+
+            if not player.stunned:
+                player.move(utils.RIGHT)
+
         elif player.state == utils.MOVING and player.direction == utils.RIGHT:
             player.move_pos = [0, 0]
             player.state = utils.STILL
 
-        if player.leveler is not None:
+        if player.leveler is not None and not player.stunned:
             if pressed[pygame.K_UP]:
                 player.jump()
             elif pressed[pygame.K_DOWN] and player.leveler.collision_behavior == utils.IGNORE_EXCEPT_ABOVE:
                 player.teleport(y = player.leveler.rect.bottom)
 
-        for obj in g_game.objects.values():
+        old_obj = g_game.objects.copy()
+        for obj in old_obj.values():
             obj.update()
             obj.draw()
 

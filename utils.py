@@ -8,6 +8,14 @@ WINDOW_HEIGHT = 1000
 GRAVITY_UPWARDS = 25
 GRAVITY_DOWNWARDS = 30
 
+# Knockback constants
+KNOCKBACK_TOTAL = 100
+KNOCKBACK_PER_FRAME = 10
+
+# Invencible state duration (ms)
+# Triggered when player collides with monster
+INVENCIBLE_DURATION = 1000
+
 # Collision behavior constants
 IGNORE_ALWAYS = 1
 IGNORE_EXCEPT_ABOVE = 2

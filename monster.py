@@ -8,7 +8,7 @@ class Monster(Creature):
     def __init__(self, x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, collision_behavior = None, immortal = False):
         super(Monster, self).__init__(x, y, speed, color, width, height, direction, horizontal, collision_behavior, immortal)
 
-        self.internal_cooldown = utils.current_milli_time() + shoot_cooldown
+        self.internal_cooldown = utils.current_milli_time()
         self.shoot_cooldown = shoot_cooldown
 
         self.shoot_pattern = shoot_pattern
@@ -38,9 +38,9 @@ class Monster(Creature):
         while g_game.running:
             self.walk_pattern.step()
 
-            if (utils.current_milli_time() - self.internal_cooldown) >= self.shoot_cooldown:
+            if (utils.current_milli_time() - self.internal_cooldown) >= 0:
                 self.shoot_pattern.fire()
 
-                self.cooldown = utils.current_milli_time() + self.shoot_cooldown
+                self.internal_cooldown = utils.current_milli_time() + self.shoot_cooldown
 
             self.clock.tick(60)

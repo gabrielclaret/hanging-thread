@@ -6,9 +6,8 @@ from player import Player
 import pygame
 import utils
 
-def can_attack(creature_a, creature_b):
-    # TODO consider immortality
-    return (isinstance(creature_a, Player) and isinstance(creature_b, Monster)) or (isinstance(creature_a, Monster) and isinstance(creature_b, Player))
+def can_attack(attacker, target):
+    return isinstance(attacker, Player) or (not isinstance(attacker, Player) and isinstance(target, Player))
 
 class Projectile(GameObject):
     def __init__(self, start_x, start_y, range, speed, color, width, height, direction, shooter, horizontal = True, collision_behavior = utils.IGNORE_ALWAYS, immortal = True):
@@ -19,7 +18,6 @@ class Projectile(GameObject):
         self.shooter = shooter
 
     def update(self):
-        #move_pos = [self.direction * self.speed, 0]
         self.move(self.direction)
 
         self.range -= self.speed
@@ -29,13 +27,14 @@ class Projectile(GameObject):
         if self.range <= 0:
             del g_game.objects[self.id]
 
-        #old_obj = g_game.objects.copy()
-        #for obj in old_obj.values():
-        for obj in g_game.objects.values():
+        old_obj = g_game.objects.copy()
+        for obj in old_obj.values():
             if not new_rect.colliderect(obj.rect):
                 continue
-            elif isinstance(obj, Leveler) or can_attack(self.shooter, obj):
-                print("Hit something!")
+            elif can_attack(self.shooter, obj) or isinstance(obj, Leveler):
+                # lose hp
+                # obj.lose_hp
+
                 del g_game.objects[self.id]
 
                 break

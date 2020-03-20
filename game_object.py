@@ -25,6 +25,10 @@ class GameObject(ABC):
 
         self.immortal = immortal
 
+        self.invencible = False
+        self.invencible_duration = utils.current_milli_time()
+        self.invencible_switch_color = self.color
+
         self.move_pos = [0, 0]
         self.state = utils.STILL
 
@@ -52,13 +56,27 @@ class GameObject(ABC):
         else:
             self.move_pos[1] = move_pixels
 
+    def lose_hp(self, health_points):
+        if self.immortal or self.invencible:
+            return
+
+        self.health_points -= health_points
+
+        if self.health_points <= 0:
+            del g_game[self.id]
+
     def draw(self):
         if self.rect is None or self.color is None:
             return
 
+        draw_color = self.invencible and self.invencible_switch_color or self.color
+
         screen = pygame.display.get_surface()
 
-        pygame.draw.rect(screen, self.color or (0, 0, 0), self.rect)
+        pygame.draw.rect(screen, draw_color or (0, 0, 0), self.rect)
+
+        if self.invencible:
+            self.invencible_switch_color = self.invencible_switch_color == (0, 0, 0) and self.color or (0, 0, 0)
 
     @abstractmethod
     def update(self):

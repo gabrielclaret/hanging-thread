@@ -2,6 +2,7 @@ from walk import Walk
 
 class WalkSymmetrical(Walk):
     def step(self):
+        print("walking~")
         direction = self.walker.direction
 
         if self.steps == 0:

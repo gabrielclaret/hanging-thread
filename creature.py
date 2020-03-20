@@ -1,5 +1,6 @@
 from game import g_game
 from game_object import GameObject
+from leveler import Leveler
 import pygame
 import utils
 
@@ -9,7 +10,9 @@ class Creature(GameObject):
 
         self.speed = speed
 
-        self.total_jump = 0
+        self.total_jump = self.knockback_total_distance = self.knockback_direction = 0
+
+        self.stunned = False
 
         self.leveler = None
 
@@ -27,12 +30,33 @@ class Creature(GameObject):
         self.rect.x = x > -1 and x or self.rect.x
         self.rect.y = y > -1 and y or self.rect.y
 
+    def knock_back(self, total_distance, direction):
+        self.knockback_total_distance = total_distance
+        self.knockback_direction = direction
+
+        self.stunned = True
+
+    def make_invencible(self, duration):
+        self.invencible = True
+        self.invencible_duration = utils.current_milli_time() + duration
+
     def update(self):
+        if (utils.current_milli_time() - self.invencible_duration) >= 0:
+            self.invencible = False
+
         if self.total_jump > 0:
             self.move_pos[1] = -utils.GRAVITY_UPWARDS
             self.total_jump -= utils.GRAVITY_UPWARDS
         elif self.leveler is None:
             self.move_pos[1] = utils.GRAVITY_DOWNWARDS
+
+        if self.knockback_total_distance > 0:
+            self.move_pos[0] += self.knockback_direction * utils.KNOCKBACK_PER_FRAME
+
+            self.knockback_total_distance -= utils.KNOCKBACK_PER_FRAME
+            
+            if self.knockback_total_distance <= 0:
+                self.stunned = False
 
         old_rect = self.rect
         new_rect = self.rect.move(self.move_pos)
@@ -41,7 +65,8 @@ class Creature(GameObject):
 
         collision = [False, None]
         
-        for obj in g_game.objects.values():
+        old_obj = g_game.objects.copy()
+        for obj in old_obj.values():
             obj_rect = obj.rect
 
             if obj is self or not new_rect.colliderect(obj_rect) or self.collision_behavior == utils.IGNORE_ALWAYS or obj.collision_behavior == utils.IGNORE_ALWAYS:
@@ -55,28 +80,31 @@ class Creature(GameObject):
 
                 continue
 
-            if old_rect.bottom <= obj_rect.top < new_rect.bottom:
-                # Coming from above
+            if isinstance(obj, Leveler):
+                if old_rect.bottom <= obj_rect.top < new_rect.bottom:
+                    # Coming from above
 
-                # Keep whole object stored in case destroyable levelers are implemented in the future.
-                # UPDATE: Leveler object is now being used to handle levelers where collisions only happen above.
-                self.leveler = obj
-                obj.on_top.append(self)
+                    # Keep whole object stored in case destroyable levelers are implemented in the future.
+                    # UPDATE: Leveler object is now being used to handle levelers where collisions only happen above.
+                    
+                    if isinstance(obj, Leveler):
+                        self.leveler = obj
+                        obj.on_top.append(self)
+                        
+                    new_rect.bottom = obj_rect.top
+                elif obj.collision_behavior == utils.IGNORE_EXCEPT_ABOVE: continue
+                elif new_rect.top < obj_rect.bottom <= old_rect.top:
+                    # Coming from below
 
-                new_rect.bottom = obj_rect.top
-            elif obj.collision_behavior == utils.IGNORE_EXCEPT_ABOVE: continue
-            elif new_rect.top < obj_rect.bottom <= old_rect.top:
-                # Coming from below
+                    new_rect.top = obj_rect.bottom
+                elif new_rect.left < obj_rect.left:
+                    # Coming from left
 
-                new_rect.top = obj_rect.bottom
-            elif new_rect.left < obj_rect.left:
-                # Coming from left
+                    new_rect.right = obj_rect.left
+                else:
+                    # Coming from right
 
-                new_rect.right = obj_rect.left
-            else:
-                # Coming from right
-
-                new_rect.left = obj_rect.right
+                    new_rect.left = obj_rect.right
 
             # Player is jumping
             if self.total_jump > 0:
