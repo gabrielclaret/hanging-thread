@@ -3,8 +3,6 @@ from game_object import GameObject
 import pygame
 import utils
 
-count = 0
-
 class Creature(GameObject):
     def __init__(self, x, y, speed, color, width, height, direction, collision_behavior = None):
         super(Creature, self).__init__(x, y, color, width, height, collision_behavior)
@@ -39,7 +37,6 @@ class Creature(GameObject):
         self.state = utils.MOVING
 
     def update(self):
-        global count
         if self.total_jump > 0:
             self.move_pos[1] = -utils.GRAVITY_UPWARDS
             self.total_jump -= utils.GRAVITY_UPWARDS
