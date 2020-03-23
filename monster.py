@@ -30,7 +30,7 @@ class Monster(Creature):
 
         collided_creature = collision[1]
 
-        if self.walk_pattern.steps > 0:
+        if self.walk_pattern.steps_remaining > 0:
             self.direction *= -1
             self.walk_pattern.steps_remaining = self.walk_pattern.steps
 

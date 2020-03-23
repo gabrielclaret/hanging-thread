@@ -52,9 +52,9 @@ class GameObject(ABC):
         move_pixels = reference.direction * reference.speed
 
         if reference.horizontal:
-            self.move_pos[0] = move_pixels
+            self.move_pos[0] += move_pixels
         else:
-            self.move_pos[1] = move_pixels
+            self.move_pos[1] += move_pixels
 
     def lose_hp(self, health_points):
         if self.immortal or self.invencible:

@@ -87,9 +87,8 @@ class Creature(GameObject):
                     # Keep whole object stored in case destroyable levelers are implemented in the future.
                     # UPDATE: Leveler object is now being used to handle levelers where collisions only happen above.
                     
-                    if isinstance(obj, Leveler):
-                        self.leveler = obj
-                        obj.on_top.append(self)
+                    self.leveler = obj
+                    obj.on_top.append(self)
                         
                     new_rect.bottom = obj_rect.top
                 elif obj.collision_behavior == utils.IGNORE_EXCEPT_ABOVE: continue

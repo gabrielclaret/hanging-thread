@@ -42,8 +42,8 @@ def main():
     #p5 = Leveler(400, 800, (0, 0, 255), 200, 200)
     #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(5))
 
-    m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
-    #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(0, 0, (0, 0, 0), 0, 0), WalkSymmetrical(100))
+    #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
+    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(0, 0, (0, 0, 0), 0, 0), WalkSymmetrical(50))
     m1.teleport(700, 800)
 
     while g_game.running:
@@ -86,8 +86,6 @@ def main():
         for obj in old_obj.values():
             obj.update()
             obj.draw()
-
-        #print(player.rect.x, player.rect.y)
 
         pygame.display.flip()
 

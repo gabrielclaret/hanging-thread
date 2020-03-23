@@ -2,10 +2,9 @@ from walk import Walk
 
 class WalkSymmetrical(Walk):
     def step(self):
-        print("walking~")
         direction = self.walker.direction
 
-        if self.steps == 0:
+        if self.steps_remaining == 0:
             direction *= -1
             self.steps_remaining = self.steps
 
