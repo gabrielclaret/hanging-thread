@@ -9,8 +9,8 @@ GRAVITY_UPWARDS = 25
 GRAVITY_DOWNWARDS = 30
 
 # Knockback constants
-KNOCKBACK_TOTAL = 100
-KNOCKBACK_PER_FRAME = 10
+KNOCKBACK_TOTAL = 10
+KNOCKBACK_PER_FRAME = 1
 
 # Invencible state duration (ms)
 # Triggered when player collides with monster

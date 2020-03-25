@@ -51,7 +51,7 @@ class Creature(GameObject):
             self.move_pos[1] = utils.GRAVITY_DOWNWARDS
 
         if self.knockback_total_distance > 0:
-            self.move_pos[0] += self.knockback_direction * utils.KNOCKBACK_PER_FRAME
+            self.move_pos[0] = self.knockback_direction * utils.KNOCKBACK_PER_FRAME
 
             self.knockback_total_distance -= utils.KNOCKBACK_PER_FRAME
             
@@ -61,7 +61,7 @@ class Creature(GameObject):
         old_rect = self.rect
         new_rect = self.rect.move(self.move_pos)
 
-        self.move_pos[1] = 0
+        self.move_pos = [0, 0]
 
         collision = [False, None]
         

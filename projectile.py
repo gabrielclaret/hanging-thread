@@ -24,14 +24,14 @@ class Projectile(GameObject):
 
         new_rect = self.rect.move(self.move_pos)
 
-        if self.range <= 0:
+        if self.range <= 0 and self.id in g_game.objects:
             del g_game.objects[self.id]
 
         old_obj = g_game.objects.copy()
         for obj in old_obj.values():
             if not new_rect.colliderect(obj.rect):
                 continue
-            elif can_attack(self.shooter, obj) or isinstance(obj, Leveler):
+            elif (can_attack(self.shooter, obj) or isinstance(obj, Leveler)) and self.id in g_game.objects:
                 # lose hp
                 # obj.lose_hp
 

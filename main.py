@@ -5,6 +5,7 @@ from leveler import Leveler
 from player import Player
 from shoot_front import ShootFront
 import utils
+from walk_follow import WalkFollow
 from walk_symmetrical import WalkSymmetrical
 from walk_still import WalkStill
 
@@ -39,11 +40,12 @@ def main():
     p2 = Leveler(0, 0, (0, 0, 255), 100, 1000)
     p3 = Leveler(900, 0, (0, 0, 255), 100, 1000)
     p4 = Leveler(0, 0, (0, 0, 255), 1000, 100)
-    #p5 = Leveler(400, 800, (0, 0, 255), 200, 200)
-    #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(5))
+    p5 = Leveler(400, 700, (0, 0, 255), 200, 100)
+    #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(100))
 
     #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
-    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(0, 0, (0, 0, 0), 0, 0), WalkSymmetrical(50))
+    #m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkSymmetrical(50))
+    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkFollow(player, 50))
     m1.teleport(700, 800)
 
     while g_game.running:

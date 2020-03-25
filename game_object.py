@@ -57,13 +57,13 @@ class GameObject(ABC):
             self.move_pos[1] += move_pixels
 
     def lose_hp(self, health_points):
-        if self.immortal or self.invencible:
+        if self.immortal or self.invencible or not self.id in g_game.objects:
             return
 
         self.health_points -= health_points
 
         if self.health_points <= 0:
-            del g_game[self.id]
+            del g_game.objects[self.id]
 
     def draw(self):
         if self.rect is None or self.color is None:
