@@ -30,7 +30,6 @@ class GameObject(ABC):
         self.invencible_switch_color = self.color
 
         self.move_pos = [0, 0]
-        self.state = utils.STILL
 
         # TODO
         self.health_points = 100
@@ -46,7 +45,6 @@ class GameObject(ABC):
             self.move_pos[1] = move_pixels
 
         self.direction = direction
-        self.state = utils.MOVING
 
     def move_as(self, reference):
         move_pixels = reference.direction * reference.speed

@@ -5,10 +5,16 @@ import pygame
 import utils
 
 class Creature(GameObject):
-    def __init__(self, x, y, speed, color, width, height, direction, horizontal = True, collision_behavior = None, immortal = False):
+    def __init__(self, x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, horizontal = True, collision_behavior = None, immortal = False):
         super(Creature, self).__init__(x, y, speed, color, width, height, direction, horizontal, collision_behavior, immortal)
 
         self.speed = speed
+        self.shoot_cooldown = shoot_cooldown
+
+        self.shoot_pattern = shoot_pattern
+        self.shoot_pattern.shooter = self
+
+        self.internal_cooldown = utils.current_milli_time()
 
         self.total_jump = self.knockback_total_distance = self.knockback_direction = 0
 

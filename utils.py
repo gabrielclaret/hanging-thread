@@ -9,8 +9,8 @@ GRAVITY_UPWARDS = 25
 GRAVITY_DOWNWARDS = 30
 
 # Knockback constants
-KNOCKBACK_TOTAL = 10
-KNOCKBACK_PER_FRAME = 1
+KNOCKBACK_TOTAL = 50
+KNOCKBACK_PER_FRAME = 5
 
 # Invencible state duration (ms)
 # Triggered when player collides with monster
@@ -26,13 +26,17 @@ RIGHT = 1
 UP = -1
 DOWN = 1
 
-# Movement constants
-STILL = 0
-MOVING = 1
-
 # Player dimensions constants
 PLAYER_WIDTH = 150
 PLAYER_HEIGHT = 100
+
+# Player shoot constants (cooldown in ms)
+SHOOT_COOLDOWN = 500
+SHOOT_RANGE = 500
+SHOOT_SPEED = 10
+SHOOT_COLOR = (0, 0, 0)
+SHOOT_WIDTH = 10
+SHOOT_HEIGHT = 10
 
 # Jump height constant
 JUMP_HEIGHT = 250

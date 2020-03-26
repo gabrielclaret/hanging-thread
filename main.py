@@ -25,7 +25,9 @@ def main():
     pygame.display.flip()
 
     #x, y, speed, color, width, height, direction
-    player = Player(200, 800, 10, (255, 0, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.RIGHT)
+    player = Player(200, 800, 10, (255, 0, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT,
+                    utils.RIGHT, utils.SHOOT_COOLDOWN, ShootFront(utils.SHOOT_RANGE, 
+                    utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
     player.teleport(200, 800)
     
     #x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern
@@ -45,7 +47,7 @@ def main():
 
     #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
     #m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkSymmetrical(50))
-    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkFollow(player, 50))
+    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
     m1.teleport(700, 800)
 
     while g_game.running:
@@ -59,30 +61,25 @@ def main():
 
                 break
 
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_LEFT]:
-
-            if not player.stunned:
+        if not player.stunned:
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_LEFT]:
                 player.move(utils.LEFT)
 
-        elif player.state == utils.MOVING and player.direction == utils.LEFT:
-            player.move_pos = [0, 0]
-            player.state = utils.STILL
-
-        if pressed[pygame.K_RIGHT]:
-
-            if not player.stunned:
+            if pressed[pygame.K_RIGHT]:
                 player.move(utils.RIGHT)
 
-        elif player.state == utils.MOVING and player.direction == utils.RIGHT:
-            player.move_pos = [0, 0]
-            player.state = utils.STILL
+            if player.leveler is not None:
+                if pressed[pygame.K_UP]:
+                    player.jump()
+                elif pressed[pygame.K_DOWN] and player.leveler.collision_behavior == utils.IGNORE_EXCEPT_ABOVE:
+                    player.teleport(y = player.leveler.rect.bottom)
 
-        if player.leveler is not None and not player.stunned:
-            if pressed[pygame.K_UP]:
-                player.jump()
-            elif pressed[pygame.K_DOWN] and player.leveler.collision_behavior == utils.IGNORE_EXCEPT_ABOVE:
-                player.teleport(y = player.leveler.rect.bottom)
+            if pressed[pygame.K_SPACE]:
+                if (utils.current_milli_time() - player.internal_cooldown) >= 0:
+                    player.shoot_pattern.fire()
+
+                    player.internal_cooldown = utils.current_milli_time() + player.shoot_cooldown
 
         old_obj = g_game.objects.copy()
         for obj in old_obj.values():

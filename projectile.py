@@ -7,7 +7,7 @@ import pygame
 import utils
 
 def can_attack(attacker, target):
-    return isinstance(attacker, Player) or (not isinstance(attacker, Player) and isinstance(target, Player))
+    return (isinstance(attacker, Player) and not target.immortal) or (not isinstance(attacker, Player) and isinstance(target, Player) and not target.invencible)
 
 class Projectile(GameObject):
     def __init__(self, start_x, start_y, range, speed, color, width, height, direction, shooter, horizontal = True, collision_behavior = utils.IGNORE_ALWAYS, immortal = True):
