@@ -60,7 +60,7 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                g_game.running = False
+                player.die()
 
                 break
 

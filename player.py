@@ -22,8 +22,7 @@ class Player(Creature):
         collided_creature = collision[1]
 
         if isinstance(collided_creature, Monster) and not self.invencible:
-            # lose hp
-            # self.lose_hp
+            self.lose_health(collided_creature.attack)
 
             self.knock_back(utils.KNOCKBACK_TOTAL, self.direction * -1)
             self.make_invencible(utils.INVENCIBLE_DURATION)

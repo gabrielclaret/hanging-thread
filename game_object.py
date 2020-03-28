@@ -67,17 +67,32 @@ class GameObject(ABC):
             self.die()
 
     def draw(self):
-        if self.rect is None or self.color is None:
+        self_rect = self.rect
+        self_color = self.color
+
+        if self_rect is None or self_color is None:
             return
 
-        draw_color = self.invencible and self.invencible_switch_color or self.color
+        draw_color = self.invencible and self.invencible_switch_color or self_color
 
         screen = pygame.display.get_surface()
 
-        pygame.draw.rect(screen, draw_color or (0, 0, 0), self.rect)
+        pygame.draw.rect(screen, draw_color or (0, 0, 0), self_rect)
+
+        if not self.immortal:
+            total_width = self.rect.width
+
+            width_health_remaining = (((self.health_points * 100) / self.max_health_points) * total_width) / 100
+            health_remaining_rect = pygame.Rect(self_rect.left, self_rect.top - 30, width_health_remaining, 20)
+            pygame.draw.rect(screen, (255, 0, 0), health_remaining_rect)
+
+            if width_health_remaining != total_width:
+                width_health_lost = total_width - width_health_remaining
+                health_lost_rect = pygame.Rect(health_remaining_rect.right, self_rect.top - 30, width_health_lost, 20)
+                pygame.draw.rect(screen, (0, 0, 0), health_lost_rect, 1)
 
         if self.invencible:
-            self.invencible_switch_color = self.invencible_switch_color == (0, 0, 0) and self.color or (0, 0, 0)
+            self.invencible_switch_color = self.invencible_switch_color == (0, 0, 0) and self_color or (0, 0, 0)
 
     def die(self):
         self_id = self.id
