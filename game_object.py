@@ -6,7 +6,7 @@ import utils
 g_id = 0
 
 class GameObject(ABC):
-    def __init__(self, x, y, speed, color, width, height, direction, horizontal, collision_behavior = None, immortal = False):
+    def __init__(self, x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
         global g_id
         self.id = g_id
         g_id += 1
@@ -31,8 +31,8 @@ class GameObject(ABC):
 
         self.move_pos = [0, 0]
 
-        # TODO
-        self.health_points = 100
+        self.health_points = max_health_points
+        self.max_health_points = max_health_points
 
         g_game.objects[self.id] = self
 
@@ -54,14 +54,17 @@ class GameObject(ABC):
         else:
             self.move_pos[1] += move_pixels
 
-    def lose_hp(self, health_points):
+    def lose_health(self, health_points):
         if self.immortal or self.invencible or not self.id in g_game.objects:
             return
+
+        print(f"{self.id} lost {health_points} health points...")
 
         self.health_points -= health_points
 
         if self.health_points <= 0:
-            del g_game.objects[self.id]
+            print(f"{self.id} has died...")
+            self.die()
 
     def draw(self):
         if self.rect is None or self.color is None:
@@ -75,6 +78,14 @@ class GameObject(ABC):
 
         if self.invencible:
             self.invencible_switch_color = self.invencible_switch_color == (0, 0, 0) and self.color or (0, 0, 0)
+
+    def die(self):
+        self_id = self.id
+
+        if not self_id in g_game.objects:
+            return
+
+        del g_game.objects[self_id]
 
     @abstractmethod
     def update(self):

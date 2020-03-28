@@ -5,19 +5,26 @@ from threading import Thread
 import utils
 
 class Monster(Creature):
-    def __init__(self, x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, collision_behavior = None, immortal = False):
-        super(Monster, self).__init__(x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, horizontal, collision_behavior, immortal)
+    def __init__(self, x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
+        super().__init__(x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal, immortal, collision_behavior)
 
         self.walk_pattern = walk_pattern
         self.walk_pattern.walker = self
 
         self.clock = pygame.time.Clock()
 
+        g_game.monster_count += 1
+
         thread = Thread(target = self.__think)
         thread.start()
 
+    def die(self):
+        super().die()
+
+        g_game.monster_count -= 1
+
     def update(self):
-        collision = super(Monster, self).update()
+        collision = super().update()
 
         if not collision[0]:
             return
@@ -29,7 +36,9 @@ class Monster(Creature):
             self.walk_pattern.steps_remaining = self.walk_pattern.steps
 
     def __think(self):
-        while g_game.running:
+        self_id = self.id
+
+        while self_id in g_game.objects:
             self.walk_pattern.step()
 
             if (utils.current_milli_time() - self.internal_cooldown) >= 0:

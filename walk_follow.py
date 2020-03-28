@@ -5,7 +5,7 @@ from walk import Walk
 
 class WalkFollow(Walk):
     def __init__(self, target, steps = 0):
-        super(WalkFollow, self).__init__(steps)
+        super().__init__(steps)
 
         self.target = target
 

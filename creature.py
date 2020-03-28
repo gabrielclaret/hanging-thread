@@ -5,10 +5,11 @@ import pygame
 import utils
 
 class Creature(GameObject):
-    def __init__(self, x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, horizontal = True, collision_behavior = None, immortal = False):
-        super(Creature, self).__init__(x, y, speed, color, width, height, direction, horizontal, collision_behavior, immortal)
+    def __init__(self, x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
+        super().__init__(x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior)
 
         self.speed = speed
+        self.attack = attack
         self.shoot_cooldown = shoot_cooldown
 
         self.shoot_pattern = shoot_pattern

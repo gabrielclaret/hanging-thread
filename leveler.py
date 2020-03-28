@@ -1,11 +1,12 @@
 from game import g_game
 from game_object import GameObject
 import pygame
+import utils
 from walk_still import WalkStill
 
 class Leveler(GameObject):
-    def __init__(self, x, y, color, width, height, collision_behavior = None, immortal = True, speed = 0, direction = 0, horizontal = True, walk_pattern = WalkStill()):
-        super(Leveler, self).__init__(x, y, speed, color, width, height, direction, horizontal, collision_behavior, immortal)
+    def __init__(self, x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()):
+        super().__init__(x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior)
 
         self.walk_pattern = walk_pattern
         self.walk_pattern.walker = self

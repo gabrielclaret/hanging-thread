@@ -17,6 +17,7 @@ KNOCKBACK_PER_FRAME = 5
 INVENCIBLE_DURATION = 1000
 
 # Collision behavior constants
+DO_NOT_IGNORE = 0
 IGNORE_ALWAYS = 1
 IGNORE_EXCEPT_ABOVE = 2
 
@@ -29,6 +30,11 @@ DOWN = 1
 # Player dimensions constants
 PLAYER_WIDTH = 150
 PLAYER_HEIGHT = 100
+
+# Player status constants
+PLAYER_INITIAL_ATTACK = 20
+PLAYER_INITIAL_HEALTH = 100
+PLAYER_SPEED = 10
 
 # Player shoot constants (cooldown in ms)
 SHOOT_COOLDOWN = 500

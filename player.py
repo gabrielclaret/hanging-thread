@@ -1,4 +1,5 @@
 from creature import Creature
+from game import g_game
 from monster import Monster
 import utils
 
@@ -6,8 +7,14 @@ class Player(Creature):
     def jump(self):
         self.total_jump = utils.JUMP_HEIGHT
 
+    def die(self):
+        print("Game over!")
+
+        g_game.objects.clear()
+        g_game.running = False
+
     def update(self):
-        collision = super(Player, self).update()
+        collision = super().update()
 
         if not collision[0]: 
             return

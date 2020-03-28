@@ -24,10 +24,11 @@ def main():
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
-    #x, y, speed, color, width, height, direction
-    player = Player(200, 800, 10, (255, 0, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT,
-                    utils.RIGHT, utils.SHOOT_COOLDOWN, ShootFront(utils.SHOOT_RANGE, 
-                    utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
+    #x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
+    player = Player(200, 800, utils.PLAYER_SPEED, (255, 0, 0), utils.PLAYER_WIDTH,
+                    utils.PLAYER_HEIGHT, utils.RIGHT, utils.PLAYER_INITIAL_ATTACK, 
+                    utils.PLAYER_INITIAL_HEALTH, utils.SHOOT_COOLDOWN, 
+                    ShootFront(utils.SHOOT_RANGE, utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
     player.teleport(200, 800)
     
     #x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern
@@ -37,7 +38,7 @@ def main():
     #monster = Monster(700, 900, 0, (0, 255, 0), 150, 100, utils.RIGHT, 1, ShootFront(500, 5, (0, 0, 0), 10, 10), WalkStill(0))
     #monster.teleport(700, 900)
 
-    #x, y, color, width, height, collision_behavior = None, immortal = True, speed = 0, direction = None, horizontal = True, walk_pattern = WalkStill()
+    #x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()
     p1 = Leveler(0, 900, (0, 0, 255), 1000, 100)
     p2 = Leveler(0, 0, (0, 0, 255), 100, 1000)
     p3 = Leveler(900, 0, (0, 0, 255), 100, 1000)
@@ -47,7 +48,9 @@ def main():
 
     #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
     #m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkSymmetrical(50))
-    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
+    #x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
+    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, 
+                 utils.LEFT, 1, 100, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
     m1.teleport(700, 800)
 
     while g_game.running:
@@ -85,6 +88,9 @@ def main():
         for obj in old_obj.values():
             obj.update()
             obj.draw()
+
+        if g_game.monster_count == 0:
+            print("Level cleared!")
 
         pygame.display.flip()
 
