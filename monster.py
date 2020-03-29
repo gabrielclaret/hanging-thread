@@ -5,15 +5,17 @@ from threading import Thread
 import utils
 
 class Monster(Creature):
-    def __init__(self, x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
+    def __init__(self, x, y, speed, color, width, height, weight, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
         super().__init__(x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal, immortal, collision_behavior)
+
+        self.weight = weight
 
         self.walk_pattern = walk_pattern
         self.walk_pattern.walker = self
 
         self.clock = pygame.time.Clock()
 
-        g_game.monster_count += 1
+        g_game.monster_weight += self.weight
 
         thread = Thread(target = self.__think)
         thread.start()
@@ -21,7 +23,7 @@ class Monster(Creature):
     def die(self):
         super().die()
 
-        g_game.monster_count -= 1
+        g_game.monster_weight -= self.weight
 
     def update(self):
         collision = super().update()

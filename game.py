@@ -1,6 +1,7 @@
 class Game:
     def __init__(self):
-        self.monster_count = 0
+        self.hanging_threads = []
+        self.monster_weight = 0
         self.objects = {}
         self.running = True
 

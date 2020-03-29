@@ -1,4 +1,5 @@
 from game import g_game
+from hanging_thread import HangingThread
 import pygame
 from monster import Monster
 from leveler import Leveler 
@@ -40,16 +41,19 @@ def main():
 
     #x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()
     p1 = Leveler(0, 900, (0, 0, 255), 1000, 100)
-    p2 = Leveler(0, 0, (0, 0, 255), 100, 1000)
-    p3 = Leveler(900, 0, (0, 0, 255), 100, 1000)
-    p4 = Leveler(0, 0, (0, 0, 255), 1000, 100)
+    p2 = Leveler(0, 200, (0, 0, 255), 100, 800)
+    p3 = Leveler(900, 200, (0, 0, 255), 100, 800)
+    p4 = Leveler(0, 200, (0, 0, 255), 1000, 100)
     p5 = Leveler(400, 700, (0, 0, 255), 200, 100)
     #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(100))
+
+    t1 = HangingThread(490, 0, 0, (255, 0, 255), 20, 200)
+    t1.start_damage()
 
     #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
     #m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkSymmetrical(50))
     #x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
-    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, 
+    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, 80, 
                  utils.LEFT, 1, 100, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
     m1.teleport(700, 800)
 
@@ -89,8 +93,11 @@ def main():
             obj.update()
             obj.draw()
 
-        if g_game.monster_count == 0:
+        if g_game.monster_weight == 0:
             print("Level cleared!")
+
+        if not g_game.hanging_threads:
+            player.die()
 
         pygame.display.flip()
 
