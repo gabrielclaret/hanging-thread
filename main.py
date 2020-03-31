@@ -9,6 +9,8 @@ import utils
 from walk_follow import WalkFollow
 from walk_symmetrical import WalkSymmetrical
 from walk_still import WalkStill
+import pygame_gui
+import ui
 
 def main():
     pygame.init()
@@ -17,10 +19,11 @@ def main():
 
     screen = pygame.display.set_mode((utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT))
     pygame.display.set_caption("Hanging by a Thread")
+    manager = pygame_gui.UIManager((utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT), 'data/themes/theme_1.json')
 
     background = pygame.Surface(screen.get_size())
     background = background.convert()
-    background.fill((250, 250, 250))
+    background.fill(manager.get_theme().get_colour(None, None, 'dark_bg'))
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
@@ -40,14 +43,14 @@ def main():
     #monster.teleport(700, 900)
 
     #x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()
-    p1 = Leveler(0, 900, (0, 0, 255), 1000, 100)
-    p2 = Leveler(0, 200, (0, 0, 255), 100, 800)
-    p3 = Leveler(900, 200, (0, 0, 255), 100, 800)
-    p4 = Leveler(0, 200, (0, 0, 255), 1000, 100)
-    p5 = Leveler(400, 700, (0, 0, 255), 200, 100)
+    p1 = Leveler(0, 950, (35, 30, 15), 1000, 50)
+    p2 = Leveler(0, 100, (35, 30, 15), 50, 900)   #left
+    p3 = Leveler(950, 100, (35, 30, 15), 50, 900) #right
+    p4 = Leveler(0, 100, (35, 30, 15), 1000, 50)  #top
+    p5 = Leveler(400, 800, (35, 30, 15), 200, 50) #platform
     #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(100))
 
-    t1 = HangingThread(490, 0, 0, (255, 0, 255), 20, 200)
+    t1 = HangingThread(490, 0, 0, (255, 255, 0), 20, 100)
     t1.start_damage()
 
     #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
@@ -56,11 +59,15 @@ def main():
     m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, 80, 
                  utils.LEFT, 1, 100, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
     m1.teleport(700, 800)
-
+    
     while g_game.running:
-        clock.tick(60)
+        clock.tick(60)/1000.0
+        
+        coefficient = 2 #get weight_coefficient do hanging_thread.py
 
-        screen.fill((255, 255, 255))
+        screen.blit(background, (0, 0))
+        ui.draw(coefficient, manager)
+        manager.draw_ui(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
