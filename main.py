@@ -9,40 +9,41 @@ import utils
 from walk_follow import WalkFollow
 from walk_symmetrical import WalkSymmetrical
 from walk_still import WalkStill
-import pygame_gui
-import ui
+from ui import UI
 
 def main():
     pygame.init()
 
     clock = pygame.time.Clock()
 
+    #@params: fontDir, fontSize
+    font = pygame.font.Font("data/fonts/Montserrat-Regular.ttf", 20)
+    ui = UI(font)
     screen = pygame.display.set_mode((utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT))
     pygame.display.set_caption("Hanging by a Thread")
-    manager = pygame_gui.UIManager((utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT), 'data/themes/theme_1.json')
 
     background = pygame.Surface(screen.get_size())
     background = background.convert()
-    background.fill(manager.get_theme().get_colour(None, None, 'dark_bg'))
+    background.fill((69, 69, 69))
 
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
-    #x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
+    #@params: x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
     player = Player(200, 800, utils.PLAYER_SPEED, (255, 0, 0), utils.PLAYER_WIDTH,
                     utils.PLAYER_HEIGHT, utils.RIGHT, utils.PLAYER_INITIAL_ATTACK, 
                     utils.PLAYER_INITIAL_HEALTH, utils.SHOOT_COOLDOWN, 
                     ShootFront(utils.SHOOT_RANGE, utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
     player.teleport(200, 800)
     
-    #x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern
+    #@params: x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern
     #range, speed, color, width, height
     #steps, speed
     
     #monster = Monster(700, 900, 0, (0, 255, 0), 150, 100, utils.RIGHT, 1, ShootFront(500, 5, (0, 0, 0), 10, 10), WalkStill(0))
     #monster.teleport(700, 900)
 
-    #x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()
+    #@params: x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()
     p1 = Leveler(0, 950, (35, 30, 15), 1000, 50)
     p2 = Leveler(0, 100, (35, 30, 15), 50, 900)   #left
     p3 = Leveler(950, 100, (35, 30, 15), 50, 900) #right
@@ -55,19 +56,19 @@ def main():
 
     #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
     #m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkSymmetrical(50))
-    #x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
+
+    #@params: x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
     m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, 80, 
                  utils.LEFT, 1, 100, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
     m1.teleport(700, 800)
     
+    
+    
+
     while g_game.running:
         clock.tick(60)/1000.0
-        
-        coefficient = 2 #get weight_coefficient do hanging_thread.py
-
-        screen.blit(background, (0, 0))
-        ui.draw(coefficient, manager)
-        manager.draw_ui(screen)
+        screen.fill((69, 69, 69))
+        ui.render(250, 50, screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
