@@ -4,6 +4,15 @@ import time
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
 
+# Monster and player status increase per level (/ 100)
+STATUS_INCREASE_PER_LEVEL = 0.05
+
+# Player status STATUS_INCREASE_PER_LEVEL penalty (/ 100)
+PLAYER_STATUS_PENALTY = 0.015
+
+# Player health recover per level (/ 100)
+PLAYER_HEALTH_RECOVER = 0.35
+
 # Thread constant (interval in ms)
 THREAD_MAX_HEALTH_POINTS = 100
 THREAD_DAMAGE_INTERVAL = 10000

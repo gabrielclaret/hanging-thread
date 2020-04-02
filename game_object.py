@@ -58,6 +58,8 @@ class GameObject(ABC):
         if self.immortal or self.invencible or not self.id in g_game.objects:
             return
 
+        health_points = int(health_points)
+
         print(f"{self.id} lost {health_points} health points...")
 
         self.health_points -= health_points
@@ -65,6 +67,8 @@ class GameObject(ABC):
         if self.health_points <= 0:
             print(f"{self.id} has died...")
             self.die()
+        elif self.health_points > self.max_health_points:
+            self.health_points = self.max_health_points
 
     def draw(self):
         self_rect = self.rect

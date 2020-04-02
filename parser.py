@@ -1,11 +1,4 @@
 from game import g_game
-"""from leveler import Leveler
-from monster import Monster
-from shoot_front import ShootFront
-from shoot_sides import ShootSides
-from walk_follow import WalkFollow
-from walk_symmetrical import WalkSymmetrical
-from walk_still import WalkStill"""
 import xml.etree.ElementTree as ET 
 
 def parse_monsters():
@@ -26,7 +19,7 @@ def parse_monsters():
             "weight":          int(monster.attrib["weight"]),
             "immortal":        int(monster.attrib["immortal"]),
             "collision":       int(monster.attrib["collision"]),
-            "look_color":      look.attrib["color"].split(","),
+            "look_color":      [int(color) for color in look.attrib["color"].split(",")],
             "look_width":      int(look.attrib["width"]),
             "look_height":     int(look.attrib["height"]),
             "walk_pattern":    walk.attrib["pattern"],
@@ -37,37 +30,12 @@ def parse_monsters():
             "shoot_cooldown":  int(shoot.attrib["cooldown"]),
             "shoot_range":     int(shoot.attrib["range"]),
             "shoot_speed":     int(shoot.attrib["speed"]),
-            "shoot_color":     shoot.attrib["color"].split(","),
+            "shoot_color":     [int(color) for color in shoot.attrib["color"].split(",")],   
             "shoot_width":     int(shoot.attrib["width"]),
             "shoot_height":    int(shoot.attrib["height"])
         }
 
     print("Monster parsing finished...")
-
-    """try:
-        monster_walk = {
-            "follow":      WalkFollow,
-            "symmetrical": WalkSymmetrical,
-            "still":       WalkStill
-        }[walk_pattern]
-    except KeyError:
-        print(f"Unsupported walk pattern for monster {name}: {walk_pattern}")
-
-        continue
-
-    try:
-        monster_shoot = {
-            "front": ShootFront,
-            "sides": ShootSides
-        }[shoot_pattern]
-    except KeyError:
-        print(f"Unsupported shoot pattern for monster {name}: {shoot_pattern}")
-
-        continue
-
-    
-    monster_walk(walk_steps)
-    monster_shoot(shoot_range, shoot_speed, shoot_color, shoot_width, shoot_height)"""
 
 def parse_levels():
     print("Level parsing started...")
@@ -92,8 +60,8 @@ def parse_levels():
                 "health":          int(leveler.attrib["health"]),
                 "speed":           int(leveler.attrib["speed"]),
                 "immortal":        int(leveler.attrib["immortal"]),
-                "collision":       int(leveler.attrib["collision"]),
-                "look_color":      look.attrib["color"].split(","),
+                "collision":       int(leveler.attrib["collision"]),         
+                "look_color":      [int(color) for color in look.attrib["color"].split(",")],
                 "look_width":      int(look.attrib["width"]),
                 "look_height":     int(look.attrib["height"]),
                 "walk_pattern":    walk.attrib["pattern"],

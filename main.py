@@ -3,20 +3,105 @@ from hanging_thread import HangingThread
 import pygame
 from monster import Monster
 from leveler import Leveler 
+import parser
 from player import Player
+import random
 from shoot_front import ShootFront
+from shoot_sides import ShootSides
+from ui import UI
 import utils
 from walk_follow import WalkFollow
 from walk_symmetrical import WalkSymmetrical
 from walk_still import WalkStill
-from ui import UI
+
+def generate_level(player):
+
+    g_game.objects = {id: obj for id, obj in g_game.objects.items() if not isinstance(obj, Leveler)}
+
+    next_level_index = random.randint(0, len(g_game.parsed_levels) - 1)
+    next_level = g_game.parsed_levels[next_level_index]
+
+    player_start_x = next_level["startx"]
+    player_start_y = next_level["starty"]
+    
+    levelers = next_level["levelers"]
+    monsters = next_level["monsters"]
+
+    for leveler in levelers:
+        walk_pattern = leveler["walk_pattern"]
+        try:
+            leveler_walk = {
+                "follow":      WalkFollow,
+                "symmetrical": WalkSymmetrical,
+                "still":       WalkStill
+            }[walk_pattern]
+        except KeyError:
+            print(f"Unsupported walk pattern for platform at level {next_level_index}: {walk_pattern}")
+
+            continue
+
+        Leveler(
+            leveler["startx"], leveler["starty"], leveler["look_color"],
+            leveler["look_width"], leveler["look_height"], leveler["speed"],
+            leveler["walk_direction"], leveler["health"], leveler["walk_horizontal"], 
+            leveler["immortal"], leveler["collision"], leveler_walk(leveler["walk_steps"])
+        )
+
+    for monster_instance in monsters:
+        monster = g_game.parsed_monsters[monster_instance["name"]]
+
+        walk_pattern = monster["walk_pattern"]
+        shoot_pattern = monster["shoot_pattern"]
+
+        try:
+            monster_walk = {
+                "follow":      WalkFollow,
+                "symmetrical": WalkSymmetrical,
+                "still":       WalkStill
+            }[walk_pattern]
+
+            monster_shoot = {
+                "front": ShootFront,
+                "sides": ShootSides
+            }[shoot_pattern]
+        except KeyError:
+            print(f"Unsupported walk or shoot pattern for monster at level {next_level_index}: {walk_pattern} [walk], {shoot_pattern} [shoot]")
+
+            continue
+
+        monster_shoot_obj = monster_shoot(monster["shoot_range"], 
+                                          monster["shoot_speed"], 
+                                          monster["shoot_color"], 
+                                          monster["shoot_width"], 
+                                          monster["shoot_height"])
+
+        monster_walk_obj = monster_walk(monster["walk_steps"])
+
+        Monster(
+            monster_instance["startx"], monster_instance["starty"], monster["speed"],
+            monster["look_color"], monster["look_width"], monster["look_height"],
+            monster["weight"], monster["walk_direction"], monster["attack"], 
+            monster["health"], monster["shoot_cooldown"], monster_shoot_obj,
+            monster_walk_obj, monster["walk_horizontal"], monster["immortal"],
+            monster["collision"]
+        )
+
+    player.reinit(player_start_x, player_start_y)
+
+    player_bonus = g_game.status_coefficient - utils.PLAYER_STATUS_PENALTY
+
+    player.attack *= player_bonus
+    player.max_health_points *= player_bonus
+
+    player.lose_health(-(player.max_health_points * utils.PLAYER_HEALTH_RECOVER)) 
+
+    g_game.status_coefficient += utils.STATUS_INCREASE_PER_LEVEL
 
 def main():
     pygame.init()
 
     clock = pygame.time.Clock()
 
-    #@params: fontDir, fontSize
     font = pygame.font.Font("data/fonts/Montserrat-Regular.ttf", 20)
     ui = UI(font)
     screen = pygame.display.set_mode((utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT))
@@ -29,41 +114,13 @@ def main():
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
-    #@params: x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
-    player = Player(200, 800, utils.PLAYER_SPEED, (255, 0, 0), utils.PLAYER_WIDTH,
+    player = Player(0, 0, utils.PLAYER_SPEED, (255, 0, 0), utils.PLAYER_WIDTH,
                     utils.PLAYER_HEIGHT, utils.RIGHT, utils.PLAYER_INITIAL_ATTACK, 
                     utils.PLAYER_INITIAL_HEALTH, utils.SHOOT_COOLDOWN, 
                     ShootFront(utils.SHOOT_RANGE, utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
-    player.teleport(200, 800)
-    
-    #@params: x, y, speed, color, width, height, direction, shoot_cooldown, shoot_pattern, walk_pattern
-    #range, speed, color, width, height
-    #steps, speed
-    
-    #monster = Monster(700, 900, 0, (0, 255, 0), 150, 100, utils.RIGHT, 1, ShootFront(500, 5, (0, 0, 0), 10, 10), WalkStill(0))
-    #monster.teleport(700, 900)
 
-    #@params: x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()
-    p1 = Leveler(0, 950, (35, 30, 15), 1000, 50)
-    p2 = Leveler(0, 100, (35, 30, 15), 50, 900)   #left
-    p3 = Leveler(950, 100, (35, 30, 15), 50, 900) #right
-    p4 = Leveler(0, 100, (35, 30, 15), 1000, 50)  #top
-    p5 = Leveler(400, 800, (35, 30, 15), 200, 50) #platform
-    #p6 = Leveler(600, 600, (0, 0, 255), 200, 100, None, True, 5, utils.RIGHT, True, WalkSymmetrical(100))
-
-    t1 = HangingThread(490, 0, 0, (255, 255, 0), 20, 100)
-    t1.start_damage()
-
-    #m1 = Monster(700, 800, 0, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 3, (0, 0, 0), 10, 10), WalkStill())
-    #m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, utils.LEFT, 1000, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkSymmetrical(50))
-
-    #@params: x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE
-    m1 = Monster(700, 800, 4, (0, 255, 0), utils.PLAYER_WIDTH, utils.PLAYER_HEIGHT, 80, 
-                 utils.LEFT, 1, 100, utils.SHOOT_COOLDOWN, ShootFront(500, 10, (0, 0, 0), 10, 10), WalkStill())
-    m1.teleport(700, 800)
-    
-    
-    
+    g_thread_1 = HangingThread(490, 0, 0, (255, 255, 0), 20, 100)
+    g_thread_1.start_damage()
 
     while g_game.running:
         clock.tick(60)/1000.0
@@ -102,7 +159,7 @@ def main():
             obj.draw()
 
         if g_game.monster_weight == 0:
-            print("Level cleared!")
+            generate_level(player)
 
         if not g_game.hanging_threads:
             player.die()
@@ -110,4 +167,7 @@ def main():
         pygame.display.flip()
 
 if __name__ == "__main__":
+    parser.parse_monsters()
+    parser.parse_levels()
+
     main()

@@ -6,6 +6,9 @@ import utils
 
 class Creature(GameObject):
     def __init__(self, x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
+        attack *= g_game.status_coefficient
+        max_health_points *= g_game.status_coefficient
+
         super().__init__(x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior)
 
         self.speed = speed
@@ -19,19 +22,19 @@ class Creature(GameObject):
 
         self.total_jump = self.knockback_total_distance = self.knockback_direction = 0
 
-        self.stunned = False
+        self.reinit(x, y)
 
+    def reinit(self, x, y):
         self.leveler = None
-
-        self.__reinit()
-
-    def __reinit(self):
+        self.stunned = False
         self.total_jump = 0
-
+        
         if self.direction == utils.LEFT:
             self.rect.midleft = self.area.midleft
         elif self.direction == utils.RIGHT:
             self.rect.midright = self.area.midright
+
+        self.teleport(x, y)
 
     def teleport(self, x = -1, y = -1):
         self.rect.x = x > -1 and x or self.rect.x
