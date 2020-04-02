@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<levels>
+    <level startx="200" starty="800">
+        <levelers>
+            <leveler startx="0" starty="950" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="1000" height="50"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="900"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="950" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="900"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="1000" height="50"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="400" starty="800" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="200" height="50"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+        </levelers>
+
+        <monsters>
+            <monster name="Evil Rectangle" startx="700" starty="800"/>
+        </monsters>
+    </level>
+</levels>
