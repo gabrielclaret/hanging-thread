@@ -67,7 +67,8 @@ def parse_levels():
                 "walk_pattern":    walk.attrib["pattern"],
                 "walk_horizontal": int(walk.attrib["horizontal"]),
                 "walk_direction":  int(walk.attrib["direction"]),
-                "walk_steps":      int(walk.attrib["steps"])
+                "walk_steps":      int(walk.attrib["steps"]),
+                "sprite":          look.attrib["sprite"]
             })
 
         for monster in monsters_pointer.iter("monster"):

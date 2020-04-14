@@ -3,7 +3,7 @@ from hanging_thread import HangingThread
 import pygame
 from monster import Monster
 from leveler import Leveler 
-import parser
+import xml_parser
 from player import Player
 import random
 from shoot_front import ShootFront
@@ -44,7 +44,8 @@ def generate_level(player):
             leveler["startx"], leveler["starty"], leveler["look_color"],
             leveler["look_width"], leveler["look_height"], leveler["speed"],
             leveler["walk_direction"], leveler["health"], leveler["walk_horizontal"], 
-            leveler["immortal"], leveler["collision"], leveler_walk(leveler["walk_steps"])
+            leveler["immortal"], leveler["collision"], leveler_walk(leveler["walk_steps"]),
+            leveler["sprite"]
         )
 
     for monster_instance in monsters:
@@ -73,7 +74,8 @@ def generate_level(player):
                                           monster["shoot_speed"], 
                                           monster["shoot_color"], 
                                           monster["shoot_width"], 
-                                          monster["shoot_height"])
+                                          monster["shoot_height"],
+                                          "data/sprites/player.png")
 
         monster_walk_obj = monster_walk(monster["walk_steps"])
 
@@ -83,7 +85,7 @@ def generate_level(player):
             monster["weight"], monster["walk_direction"], monster["attack"], 
             monster["health"], monster["shoot_cooldown"], monster_shoot_obj,
             monster_walk_obj, monster["walk_horizontal"], monster["immortal"],
-            monster["collision"]
+            monster["collision"], "data/sprites/monster.png"
         )
 
     player.reinit(player_start_x, player_start_y)
@@ -119,12 +121,16 @@ def main():
                     utils.PLAYER_INITIAL_HEALTH, utils.SHOOT_COOLDOWN, 
                     ShootFront(utils.SHOOT_RANGE, utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
 
-    g_thread_1 = HangingThread(490, 0, 0, (255, 255, 0), 20, 100)
-    g_thread_1.start_damage()
+    
+    HangingThread(490, 0, 0, (255, 255, 0), 20, 100)
+    HangingThread(560, 0, 0, (255, 255, 0), 20, 100)
+    (HangingThread(420, 0, 0, (255, 255, 0), 20, 100)).start_damage()
+
+    generate_level(player)
 
     while g_game.running:
         clock.tick(60)/1000.0
-        screen.fill((69, 69, 69))
+        screen.blit(pygame.transform.scale(pygame.image.load('data/sprites/bg.jpg'), (utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT)), (0, 0))
         ui.render(250, 50, screen)
 
         for event in pygame.event.get():
@@ -140,6 +146,7 @@ def main():
 
             if pressed[pygame.K_RIGHT]:
                 player.move(utils.RIGHT)
+                
 
             if player.leveler is not None:
                 if pressed[pygame.K_UP]:
@@ -158,6 +165,9 @@ def main():
             obj.update()
             obj.draw()
 
+        g_game.sprite_group.update()
+        g_game.sprite_group.draw(screen)
+
         if g_game.monster_weight == 0:
             generate_level(player)
 
@@ -167,7 +177,7 @@ def main():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    parser.parse_monsters()
-    parser.parse_levels()
+    xml_parser.parse_monsters()
+    xml_parser.parse_levels()
 
     main()

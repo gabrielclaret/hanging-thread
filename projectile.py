@@ -10,8 +10,8 @@ def can_attack(attacker, target):
     return (isinstance(attacker, Player) and not target.immortal) or (not isinstance(attacker, Player) and isinstance(target, Player) and not target.invencible)
 
 class Projectile(GameObject):
-    def __init__(self, attack, start_x, start_y, range, speed, color, width, height, direction, shooter, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.IGNORE_ALWAYS):
-        super().__init__(start_x, start_y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior)
+    def __init__(self, attack, start_x, start_y, range, speed, color, width, height, direction, shooter, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.IGNORE_ALWAYS, sprite = "data/sprites/player.png"):
+        super().__init__(start_x, start_y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior, sprite)
 
         self.attack = attack
         self.range = range

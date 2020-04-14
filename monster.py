@@ -5,8 +5,8 @@ from threading import Thread
 import utils
 
 class Monster(Creature):
-    def __init__(self, x, y, speed, color, width, height, weight, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE):
-        super().__init__(x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal, immortal, collision_behavior)
+    def __init__(self, x, y, speed, color, width, height, weight, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, walk_pattern, horizontal = True, immortal = False, collision_behavior = utils.DO_NOT_IGNORE, sprite = "data/sprites/player.png"):
+        super().__init__(x, y, speed, color, width, height, direction, attack, max_health_points, shoot_cooldown, shoot_pattern, horizontal, immortal, collision_behavior, sprite)
 
         self.weight = weight
 
@@ -30,7 +30,7 @@ class Monster(Creature):
 
         if not collision[0]:
             return
-
+        
         collided_creature = collision[1]
 
         if self.walk_pattern.steps_remaining > 0:

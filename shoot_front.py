@@ -12,4 +12,4 @@ class ShootFront(Shoot):
 
         direction = self.shooter.direction
 
-        new_projectile = Projectile(shooter_attack, shooter_x + (direction * self.width), shooter_y + self.height, self.range, self.speed, self.color, self.width, self.height, direction, self.shooter)
+        new_projectile = Projectile(shooter_attack, shooter_x + (direction * self.width), shooter_y + self.height, self.range, self.speed, self.color, self.width, self.height, direction, self.shooter, self.sprite)

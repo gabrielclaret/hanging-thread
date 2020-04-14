@@ -5,8 +5,8 @@ import utils
 from walk_still import WalkStill
 
 class Leveler(GameObject):
-    def __init__(self, x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill()):
-        super().__init__(x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior)
+    def __init__(self, x, y, color, width, height, speed = 0, direction = 0, max_health_points = 1, horizontal = True, immortal = True, collision_behavior = utils.DO_NOT_IGNORE, walk_pattern = WalkStill(), sprite = "data/sprites/player.png"):
+        super().__init__(x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior, sprite)
 
         self.walk_pattern = walk_pattern
         self.walk_pattern.walker = self
@@ -15,7 +15,7 @@ class Leveler(GameObject):
 
     def update(self):
         self.walk_pattern.step()
-
+        #print("Leveler:" + "left " + str(self.rect.left) + " top " + str(self.rect.top) + " id " + str(self.id))
         old_rect = self.rect
         new_rect = self.rect.move(self.move_pos)
 

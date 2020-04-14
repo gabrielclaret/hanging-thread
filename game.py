@@ -1,3 +1,5 @@
+import pygame
+
 class Game:
     def __init__(self):
         self.hanging_threads = []
@@ -7,6 +9,7 @@ class Game:
         self.parsed_monsters = {}
         self.running = True
         self.status_coefficient = 1
+        self.sprite_group = pygame.sprite.Group()
         
 
 global g_game
