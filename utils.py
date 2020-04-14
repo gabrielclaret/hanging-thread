@@ -1,5 +1,8 @@
 import time
 
+# Songs played randomly at each level
+SONGS = ("data/songs/tunak.mp3", "data/songs/cosita.mp3", "data/songs/popotao.mp3")
+
 # Window dimensions constants
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
@@ -15,7 +18,7 @@ PLAYER_HEALTH_RECOVER = 0.35
 
 # Thread constant (interval in ms)
 THREAD_MAX_HEALTH_POINTS = 100
-THREAD_DAMAGE_INTERVAL = 2000
+THREAD_DAMAGE_INTERVAL = 10000
 THREAD_DAMAGE_PER_INTERVAL = 100
 THREAD_LIGHT = 0
 THREAD_NORMAL = 1

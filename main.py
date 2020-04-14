@@ -16,6 +16,13 @@ from walk_still import WalkStill
 
 def generate_level(player):
 
+    pygame.mixer.music.stop()
+
+    song = random.choice(utils.SONGS)
+
+    pygame.mixer.music.load(song)
+    pygame.mixer.music.play(-1)
+
     g_game.objects = {id: obj for id, obj in g_game.objects.items() if not isinstance(obj, Leveler)}
 
     next_level_index = random.randint(0, len(g_game.parsed_levels) - 1)
