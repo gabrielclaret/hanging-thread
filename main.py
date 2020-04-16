@@ -137,7 +137,7 @@ def main():
 
     while g_game.running:
         clock.tick(60)/1000.0
-        screen.blit(pygame.transform.scale(pygame.image.load('data/sprites/bg.jpg'), (utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT)), (0, 0))
+        screen.blit(pygame.transform.scale(pygame.image.load("data/sprites/bg.jpg"), (utils.WINDOW_WIDTH, utils.WINDOW_HEIGHT)), (0, 0))
         ui.render(250, 50, screen)
 
         for event in pygame.event.get():
