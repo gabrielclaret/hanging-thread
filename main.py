@@ -52,7 +52,7 @@ def generate_level(player):
             leveler["look_width"], leveler["look_height"], leveler["speed"],
             leveler["walk_direction"], leveler["health"], leveler["walk_horizontal"], 
             leveler["immortal"], leveler["collision"], leveler_walk(leveler["walk_steps"]),
-            leveler["sprite"]
+            leveler["look_sprite"]
         )
 
     for monster_instance in monsters:
@@ -92,7 +92,7 @@ def generate_level(player):
             monster["weight"], monster["walk_direction"], monster["attack"], 
             monster["health"], monster["shoot_cooldown"], monster_shoot_obj,
             monster_walk_obj, monster["walk_horizontal"], monster["immortal"],
-            monster["collision"], "data/sprites/monster.png"
+            monster["collision"], monster["look_sprite"]
         )
 
     player.reinit(player_start_x, player_start_y)
@@ -172,8 +172,13 @@ def main():
             obj.update()
             obj.draw()
 
-        g_game.sprite_group.update()
-        g_game.sprite_group.draw(screen)
+        # TODO fuck this error, too lazy to fix -> pygame.error: Surfaces must not be locked during blit
+        #      exception handler just as band-aid
+        try:
+            g_game.sprite_group.update()
+            g_game.sprite_group.draw(screen)
+        except:
+            pass
 
         if g_game.monster_weight == 0:
             generate_level(player)

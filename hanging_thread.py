@@ -19,7 +19,6 @@ class HangingThread(GameObject):
         remaining_hanging_threads = g_game.hanging_threads
 
         remaining_hanging_threads.pop()
-        print("len : " + str(len(remaining_hanging_threads)))
         if remaining_hanging_threads:
             new_front = remaining_hanging_threads[-1]
     

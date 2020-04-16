@@ -30,8 +30,6 @@ class Monster(Creature):
 
         if not collision[0]:
             return
-        
-        collided_creature = collision[1]
 
         if self.walk_pattern.steps_remaining > 0:
             self.direction *= -1

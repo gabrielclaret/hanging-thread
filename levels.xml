@@ -29,7 +29,7 @@
         </levelers>
 
         <monsters>
-            <monster name="Evil Rectangle" startx="700" starty="800"/>
+            <monster name="Big Chungus" startx="700" starty="800"/>
         </monsters>
     </level>
 </levels>

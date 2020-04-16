@@ -22,6 +22,7 @@ def parse_monsters():
             "look_color":      [int(color) for color in look.attrib["color"].split(",")],
             "look_width":      int(look.attrib["width"]),
             "look_height":     int(look.attrib["height"]),
+            "look_sprite":     look.attrib["sprite"],
             "walk_pattern":    walk.attrib["pattern"],
             "walk_horizontal": int(walk.attrib["horizontal"]),
             "walk_direction":  int(walk.attrib["direction"]),
@@ -64,11 +65,11 @@ def parse_levels():
                 "look_color":      [int(color) for color in look.attrib["color"].split(",")],
                 "look_width":      int(look.attrib["width"]),
                 "look_height":     int(look.attrib["height"]),
+                "look_sprite":     look.attrib["sprite"],
                 "walk_pattern":    walk.attrib["pattern"],
                 "walk_horizontal": int(walk.attrib["horizontal"]),
                 "walk_direction":  int(walk.attrib["direction"]),
-                "walk_steps":      int(walk.attrib["steps"]),
-                "sprite":          look.attrib["sprite"]
+                "walk_steps":      int(walk.attrib["steps"])
             })
 
         for monster in monsters_pointer.iter("monster"):
