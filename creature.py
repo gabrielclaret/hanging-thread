@@ -9,6 +9,8 @@ class Creature(GameObject):
         attack *= g_game.status_coefficient
         max_health_points *= g_game.status_coefficient
 
+        self.origin = (x, y)
+
         super().__init__(x, y, speed, color, width, height, direction, horizontal, max_health_points, immortal, collision_behavior, sprite)
 
         self.speed = speed
@@ -49,6 +51,13 @@ class Creature(GameObject):
     def update(self):
         if (utils.current_milli_time() - self.invencible_duration) >= 0:
             self.invencible = False
+
+        x = self.rect.left
+        y = self.rect.top
+
+        # Wall width
+        if x < 50 or x > 1550 or y < 50 or y > 950:
+            self.teleport(self.origin[0], self.origin[1])
 
         if self.total_jump > 0:
             self.move_pos[1] = -utils.GRAVITY_UPWARDS
