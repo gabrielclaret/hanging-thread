@@ -26,7 +26,7 @@ class UI():
 
         self.font = font
         self.weight = ["LIGHT", "NORMAL", "MEDIUM", "HEAVY", "VERY HEAVY"]
-        self.weight_colors = ['green', 'yellow', 'orange', 'red', 'crimson']
+        self.weight_colors = ['blue', 'green', 'yellow', 'orange', 'red']
         
         self.update_text()
 

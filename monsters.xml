@@ -13,6 +13,6 @@
     <monster name="Knuckles" attack="8" health="250" speed="4" weight="80" immortal="0" collision="0">
         <look color="0,255,0" width="150" height="100" sprite="data/sprites/monster2.png"/>
         <walk pattern="still" horizontal="1" direction="-1" steps="50"/>
-        <shoot pattern="sides" cooldown="1200" range="700" speed="5" color="0,0,0" width="10" height="10"/>
+        <shoot pattern="sides" cooldown="1600" range="400" speed="5" color="0,0,0" width="10" height="10"/>
     </monster>
 </monsters>

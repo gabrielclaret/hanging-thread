@@ -192,7 +192,6 @@ def main():
             g_game.sprite_group.update()
             g_game.sprite_group.draw(screen)
         except:
-            print("Platform")
             pass
 
         if g_game.monster_weight == 0:
