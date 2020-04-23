@@ -10,6 +10,7 @@ class Game:
         self.running = True
         self.status_coefficient = 1
         self.sprite_group = pygame.sprite.Group()
+        self.last_level_index = -1
         
 
 global g_game

@@ -60,11 +60,11 @@ class UI():
     def render(self, posx, posy, screen):
         self.update_text()
 
-        screen.blit(self.weight_text_render, self.weight_text_render.get_rect(centerx=posx-125, centery=posy))
-        screen.blit(self.weight_text_render_1, self.weight_text_render_1.get_rect(centerx=posx, centery=posy))
+        screen.blit(self.weight_text_render, self.weight_text_render.get_rect(centerx=posx - 125, centery=posy))
+        screen.blit(self.weight_text_render_1, self.weight_text_render_1.get_rect(centerx = posx, centery=posy))
 
-        screen.blit(self.level_text_render, self.level_text_render.get_rect(centerx=posx + 550, centery=posy))
-        screen.blit(self.level_text_render_1, self.level_text_render_1.get_rect(centerx=posx + 590, centery=posy))
+        screen.blit(self.level_text_render, self.level_text_render.get_rect(centerx=posx + 1150, centery=posy))
+        screen.blit(self.level_text_render_1, self.level_text_render_1.get_rect(centerx=posx + 1190, centery=posy))
 
-        screen.blit(self.time_text_render, self.time_text_render.get_rect(centerx=posx + 640, centery=posy))
-        screen.blit(self.time_text_render_1, self.time_text_render_1.get_rect(centerx=posx + 680, centery=posy))
+        screen.blit(self.time_text_render, self.time_text_render.get_rect(centerx=posx + 1240, centery=posy))
+        screen.blit(self.time_text_render_1, self.time_text_render_1.get_rect(centerx=posx + 1280, centery=posy))

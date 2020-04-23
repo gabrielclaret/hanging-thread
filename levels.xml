@@ -3,33 +3,107 @@
     <level startx="200" starty="800">
         <levelers>
             <leveler startx="0" starty="950" health="1" speed="0" immortal="1" collision="0">
-                <look color="35,30,15" width="1000" height="50" sprite="data/sprites/bottom_box.png"/>
+                <look color="35,30,15" width="1600" height="50" sprite="data/sprites/bottom_box.png"/>
                 <walk pattern="still" horizontal="1" direction="0" steps="0"/>
             </leveler>
 
             <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
-                <look color="35,30,15" width="50" height="900" sprite="data/sprites/left_box.png"/>
+                <look color="35,30,15" width="50" height="1500" sprite="data/sprites/left_box.png"/>
                 <walk pattern="still" horizontal="1" direction="0" steps="0"/>
             </leveler>
 
-            <leveler startx="950" starty="100" health="1" speed="0" immortal="1" collision="0">
-                <look color="35,30,15" width="50" height="900" sprite="data/sprites/right_box.png"/>
+            <leveler startx="1550" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="1500" sprite="data/sprites/right_box.png"/>
                 <walk pattern="still" horizontal="1" direction="0" steps="0"/>
             </leveler>
 
             <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
-                <look color="35,30,15" width="1000" height="50" sprite="data/sprites/top_box.png"/>
+                <look color="35,30,15" width="1600" height="50" sprite="data/sprites/top_box.png"/>
                 <walk pattern="still" horizontal="1" direction="0" steps="0"/>
             </leveler>
 
-            <leveler startx="400" starty="800" health="1" speed="0" immortal="1" collision="0">
+            <leveler startx="700" starty="1200" health="1" speed="5" immortal="1" collision="0">
                 <look color="35,30,15" width="200" height="50" sprite="data/sprites/bottom_box.png"/>
-                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+                <walk pattern="symmetrical" horizontal="1" direction="-1" steps="50"/>
             </leveler>
         </levelers>
 
         <monsters>
             <monster name="Big Chungus" startx="700" starty="800"/>
+            <monster name="Fat Yoshi" startx="500" starty="800"/>
+            <monster name="Knuckles" startx="1000" starty="800"/>
+        </monsters>
+    </level>
+
+    <level startx="600" starty="800">
+        <levelers>
+            <leveler startx="0" starty="950" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="1600" height="50" sprite="data/sprites/bottom_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="1500" sprite="data/sprites/left_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="1550" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="1500" sprite="data/sprites/right_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="1600" height="50" sprite="data/sprites/top_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="700" starty="1200" health="1" speed="5" immortal="1" collision="0">
+                <look color="35,30,15" width="200" height="50" sprite="data/sprites/bottom_box.png"/>
+                <walk pattern="symmetrical" horizontal="1" direction="-1" steps="50"/>
+            </leveler>
+        </levelers>
+
+        <monsters>
+            <monster name="Big Chungus" startx="700" starty="800"/>
+            <monster name="Fat Yoshi" startx="500" starty="800"/>
+            <monster name="Knuckles" startx="1000" starty="800"/>
+        </monsters>
+    </level>
+
+    <level startx="1000" starty="800">
+        <levelers>
+            <leveler startx="0" starty="950" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="1600" height="50" sprite="data/sprites/bottom_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="1500" sprite="data/sprites/left_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="1550" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="50" height="1500" sprite="data/sprites/right_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="0" starty="100" health="1" speed="0" immortal="1" collision="0">
+                <look color="35,30,15" width="1600" height="50" sprite="data/sprites/top_box.png"/>
+                <walk pattern="still" horizontal="1" direction="0" steps="0"/>
+            </leveler>
+
+            <leveler startx="400" starty="800" health="1" speed="5" immortal="1" collision="0">
+                <look color="35,30,15" width="400" height="50" sprite="data/sprites/bottom_box.png"/>
+                <walk pattern="symmetrical" horizontal="1" direction="-1" steps="50"/>
+            </leveler>
+
+            
+        </levelers>
+
+        <monsters>
+            <monster name="Big Chungus" startx="700" starty="800"/>
+            <monster name="Fat Yoshi" startx="500" starty="800"/>
+            <monster name="Knuckles" startx="1000" starty="800"/>
         </monsters>
     </level>
 </levels>

@@ -26,8 +26,13 @@ def generate_level(player):
     g_game.objects = {id: obj for id, obj in g_game.objects.items() if not isinstance(obj, Leveler)}
 
     next_level_index = random.randint(0, len(g_game.parsed_levels) - 1)
+    print(len(g_game.parsed_levels))
+    while next_level_index == g_game.last_level_index:
+        next_level_index = random.randint(0, len(g_game.parsed_levels) - 1)
+    g_game.last_level_index = next_level_index
+    print("nextlevel: " + str(next_level_index))
     next_level = g_game.parsed_levels[next_level_index]
-
+    
     player_start_x = next_level["startx"]
     player_start_y = next_level["starty"]
     
@@ -47,11 +52,17 @@ def generate_level(player):
 
             continue
 
+        if walk_pattern != "follow":
+            leveler_walk_obj = leveler_walk(leveler["walk_steps"])
+            print("AAAAAAAAAAAAAAAAAAAAAAAAA TIPO: " + str(type(leveler_walk_obj)))
+        else:
+            leveler_walk_obj = leveler_walk(player, leveler["walk_steps"])
+
         Leveler(
             leveler["startx"], leveler["starty"], leveler["look_color"],
             leveler["look_width"], leveler["look_height"], leveler["speed"],
             leveler["walk_direction"], leveler["health"], leveler["walk_horizontal"], 
-            leveler["immortal"], leveler["collision"], leveler_walk(leveler["walk_steps"]),
+            leveler["immortal"], leveler["collision"], leveler_walk_obj,
             leveler["look_sprite"]
         )
 
@@ -84,7 +95,10 @@ def generate_level(player):
                                           monster["shoot_height"],
                                           "data/sprites/player.png")
 
-        monster_walk_obj = monster_walk(monster["walk_steps"])
+        if walk_pattern != "follow":
+            monster_walk_obj = monster_walk(monster["walk_steps"])
+        else:
+            monster_walk_obj = monster_walk(player, monster["walk_steps"])
 
         Monster(
             monster_instance["startx"], monster_instance["starty"], monster["speed"],
@@ -129,9 +143,9 @@ def main():
                     ShootFront(utils.SHOOT_RANGE, utils.SHOOT_SPEED, utils.SHOOT_COLOR, utils.SHOOT_WIDTH, utils.SHOOT_HEIGHT))
 
     
-    HangingThread(490, 0, 0, (255, 255, 0), 20, 100)
-    HangingThread(560, 0, 0, (255, 255, 0), 20, 100)
-    (HangingThread(420, 0, 0, (255, 255, 0), 20, 100)).start_damage()
+    HangingThread(790, 0, 0, (255, 255, 0), 20, 100)
+    HangingThread(860, 0, 0, (255, 255, 0), 20, 100)
+    (HangingThread(720, 0, 0, (255, 255, 0), 20, 100)).start_damage()
 
     generate_level(player)
 
@@ -178,6 +192,7 @@ def main():
             g_game.sprite_group.update()
             g_game.sprite_group.draw(screen)
         except:
+            print("Platform")
             pass
 
         if g_game.monster_weight == 0:

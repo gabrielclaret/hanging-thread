@@ -4,7 +4,7 @@ import time
 SONGS = ("data/songs/tunak.mp3", "data/songs/cosita.mp3", "data/songs/popotao.mp3")
 
 # Window dimensions constants
-WINDOW_WIDTH = 1000
+WINDOW_WIDTH = 1600
 WINDOW_HEIGHT = 1000
 
 # Monster and player status increase per level (/ 100)
@@ -27,8 +27,8 @@ THREAD_HEAVY = 3
 THREAD_VERY_HEAVY = 4
 
 # Gravity constants
-GRAVITY_UPWARDS = 25
-GRAVITY_DOWNWARDS = 30
+GRAVITY_UPWARDS = 15
+GRAVITY_DOWNWARDS = 18
 
 # Knockback constants
 KNOCKBACK_TOTAL = 50
@@ -55,11 +55,11 @@ PLAYER_HEIGHT = 100
 
 # Player status constants
 PLAYER_INITIAL_ATTACK = 20
-PLAYER_INITIAL_HEALTH = 100
+PLAYER_INITIAL_HEALTH = 150
 PLAYER_SPEED = 10
 
 # Player shoot constants (cooldown in ms)
-SHOOT_COOLDOWN = 500
+SHOOT_COOLDOWN = 300
 SHOOT_RANGE = 500
 SHOOT_SPEED = 10
 SHOOT_COLOR = (0, 0, 0)

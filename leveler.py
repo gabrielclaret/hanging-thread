@@ -18,9 +18,11 @@ class Leveler(GameObject):
         #print("Leveler:" + "left " + str(self.rect.left) + " top " + str(self.rect.top) + " id " + str(self.id))
         old_rect = self.rect
         new_rect = self.rect.move(self.move_pos)
-
+        #@if self.speed > 0:
+           # print("Old: ", old_rect)
+           #print("New: ", new_rect)
         collision = False
-        
+
         for obj in g_game.objects.values():
             obj_rect = obj.rect
 
