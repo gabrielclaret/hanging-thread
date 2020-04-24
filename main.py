@@ -23,14 +23,19 @@ def generate_level(player):
     pygame.mixer.music.load(song)
     pygame.mixer.music.play(-1)
 
-    g_game.objects = {id: obj for id, obj in g_game.objects.items() if not isinstance(obj, Leveler)}
+    if g_game.last_level_index != -1:
+        g_game.objects = {id: obj for id, obj in g_game.objects.items() if not isinstance(obj, Leveler)}
+        g_game.sprite_group = pygame.sprite.Group()
+
+        for obj in g_game.objects.items():
+            g_game.sprite_group.add(obj[1])
 
     next_level_index = random.randint(0, len(g_game.parsed_levels) - 1)
-    print(len(g_game.parsed_levels))
     while next_level_index == g_game.last_level_index:
         next_level_index = random.randint(0, len(g_game.parsed_levels) - 1)
+
     g_game.last_level_index = next_level_index
-    print("nextlevel: " + str(next_level_index))
+
     next_level = g_game.parsed_levels[next_level_index]
     
     player_start_x = next_level["startx"]
